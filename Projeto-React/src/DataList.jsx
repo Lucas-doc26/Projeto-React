@@ -13,32 +13,31 @@ const DataList = (props) => {
 
   return (
     <div className="container-datalist">
-      <div>
-        <h1>Lista de Usuários</h1>
-      </div>
-      
-      <ul className="list">
+      <h1>Lista de Usuários</h1>
+      <div className="user-list">
         {data.map((pessoa) => (
-          <li key={pessoa.idusuarios} className="li-list">
-            Nome: {pessoa.nome}<br />
-            Idade: {pessoa.idade}<br />
-            Data de Nascimento: {new Date(pessoa.dataNascimento).toLocaleDateString('pt-BR')} <br/>
-            CPF: {pessoa.cpf}<br />
-            Email: {pessoa.email}<br/>
-            Genêro: {pessoa.genero}<br/>
+          <div key={pessoa.idusuarios} className="user">
+            <div>
+              <strong>Nome:</strong> {pessoa.nome}
+            </div>
+            <div>
+              <strong>Idade:</strong> {pessoa.idade}
+            </div>
+            <div>
+              <strong>Email:</strong> {pessoa.email}
+            </div>
 
             <div className="div-btn">
-            <button
-              className="btn-delete"
-              onClick={() => deleteUser(pessoa.idusuarios)}
-            >
-              Excluir
-            </button>
-
+              <button
+                className="btn-delete"
+                onClick={() => deleteUser(pessoa.idusuarios)}
+              >
+                Excluir
+              </button>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

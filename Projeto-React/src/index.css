@@ -1,5 +1,6 @@
 /* Reset de margens e paddings para evitar bordas no body */
 html, body {
+  background-color: #555;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -11,14 +12,12 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Layout flex para o #root */
 #root {
   display: flex;
   height: 100%;
   gap: 20px; 
 }
 
-/* Estilo do código */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
