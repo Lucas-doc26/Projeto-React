@@ -6,6 +6,7 @@ import Crud from "./Crud";
 import User from "./User";
 import "./App.css";
 
+//função principal do projeto
 function App() {
   return (
     <div style={{ display: "flex" }}>

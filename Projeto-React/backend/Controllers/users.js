@@ -1,10 +1,12 @@
 import { db } from "../db.js";
 
+//pego todos os usuários 
 export const getUsers = (req, res) => {
   const { id } = req.params;
   let q;
   let values = [];
 
+  //se o id for passado, pego o usuário pelo id
   if (id) {
     q = "SELECT * FROM Pessoa WHERE idusuarios = ?";
     values = [id];
@@ -18,11 +20,11 @@ export const getUsers = (req, res) => {
   });
 };
 
-
-
-
+//criando um usuario novo
 export const createUsers = (req, res) => {
   const {nome, idade, dataNascimento, cpf, email, genero} = req.body;
+
+  //verificações
   if (!nome || !idade || !cpf || !dataNascimento || !email || !genero) {
     return res.status(400).json({ message: "Todos os itens são obrigatórios." });
   }
@@ -43,16 +45,20 @@ export const createUsers = (req, res) => {
 export const updateUser = (req, res) => {
   const {id} = req.params; 
   const {nome, idade, dataNascimento, cpf, email, genero} = req.body;
-  
 
+  //verificações
+  if (!nome || !idade || !cpf || !dataNascimento || !email || !genero) {
+    return res.status(400).json({ message: "Todos os itens são obrigatórios." });
+  }
+  
   const q = 'UPDATE Pessoa SET nome = ?, idade = ?, dataNascimento = ?, cpf = ? , email = ?, genero = ? WHERE idusuarios = ?';
 
   db.query(q, [nome, idade, dataNascimento, cpf, email, genero, id], (err, data) => {
     if (err){
-      console.log("Erro ao atualizar o usuário");
-      return res.json(err);
+      console.error("Erro ao atualizar o usuário:", err);
+      return res.status(500).json({ error: "Erro ao atualizar o usuário." });
     } 
-    res.status(200).send("Usuário atualizado com sucesso!")
+    res.status(200).json({message: "Usuário atualizado com sucesso!"})
   })
 }
 
@@ -60,6 +66,10 @@ export const deleteUser = (req, res) => {
   console.log(req.params);
   const {id} = req.params; 
 
+  if (!id) {
+    return res.status(400).json({ message: "Id é obrigatório." });
+  }
+  
   const q = 'DELETE FROM Pessoa WHERE idusuarios = ?';
 
   db.query(q, [id], (err, data) => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./User.css" 
-import { format } from "mysql";
 
 const User = () => {
   const { id } = useParams(); // Obtém o ID da URL
@@ -10,6 +9,7 @@ const User = () => {
   useEffect(() => {
     console.log("ID do usuário:", id); // Verificando se o id está sendo capturado corretamente
 
+    //requisição para buscar os dados do usuário
     fetch(`http://localhost:8800/usuarios/${id}`)
       .then((response) => response.json())
       .then((data) => {

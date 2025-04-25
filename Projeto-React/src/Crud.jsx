@@ -32,7 +32,7 @@ function Crud() {
       .then((data) => setData(data));
   }, []);
 
-  //pego os usuários do banco de dados quando o usuário é adicionado ou atualizado
+  //chamada quando algum campo do formulário de add é alterado
   const handleAddChange = (event) => {
     setFormAdd({
       ...formAdd,
@@ -40,6 +40,7 @@ function Crud() {
     });
   };
 
+  //chamada quando algum campo do formulário de att é alterado
   const handleUpdateChange = (event) => {
     setFormUpdate({
       ...formUpdate,
@@ -47,7 +48,7 @@ function Crud() {
     });
   };
 
-  //pego o usuário que foi selecionado para atualizar ou deletar
+  //chamada para retornar os dados do usuário
   const handleChange = (event) => {
     const id = event.target.value;
     setOpcaoSelecionada(id);
@@ -67,6 +68,7 @@ function Crud() {
     }
   };
 
+  //envio os dados para o banco de dados
   const submitFormularioAdd = async (event) => {
     event.preventDefault();
 
@@ -86,20 +88,16 @@ function Crud() {
         body: JSON.stringify(formAdd), 
       });
 
-      const text = await response.text();
-
-      try {
-        const data = JSON.parse(text);
-        console.log("Usuário adicionado:", data);
-        alert("Usuário adicionado com sucesso!");
-        window.location.reload(); 
-      } catch (e) {
-        console.warn("Resposta não era JSON válido:", text);
-        alert("Usuário adicionado com sucesso!");
-        window.location.reload(); 
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
       }
+    
+      const data = await response.json(); // Aqui já tratamos como JSON direto
+      console.log("Usuário adicionado:", data);
+      alert("Usuário adicionado com sucesso!");
+      window.location.reload();
       
-      //envia os dados para add o usuário
+      //limpar o formulário após o envio
       setFormAdd({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
 
     } catch (error) {
@@ -108,6 +106,7 @@ function Crud() {
     }
   };
 
+  //envio os dados para o banco de dados para atualizar o usuário
   const submitFormularioUpdate = async (event) => {
     event.preventDefault();
   
@@ -119,20 +118,16 @@ function Crud() {
       return;
     }
 
+    // Verifica se todos os campos obrigatórios estão preenchidos
     if (!nome || !email || !idade || !genero || !dataNascimento || !cpf) {
       alert("Preencha todos os campos obrigatórios!");
-      return;
-    }
-
-    console.log("Dados enviados para atualização:", formUpdate);
-    if (!formUpdate.nome) {
-      alert("Nome é obrigatório!");
       return;
     }
   
     try {
       const usuarioId = opcaoSelecionada;
-  
+      
+      // envio os dados para att o usuário pelo seu id
       const response = await fetch(`http://localhost:8800/usuarios/${usuarioId}`, {
         method: "PUT",
         headers: {
@@ -140,21 +135,17 @@ function Crud() {
         },
         body: JSON.stringify(formUpdate),
       });
-  
-      const text = await response.text();
-  
-      try {
-        const data = JSON.parse(text);
-        console.log("Usuário atualizado:", data);
-        alert("Usuário atualizado com sucesso!");
-        window.location.reload(); 
-      } catch (e) {
-        console.warn("Resposta não era JSON válido:", text);
-        alert("Usuário atualizado com sucesso! (mas resposta não era JSON)");
-        window.location.reload(); 
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
       }
+    
+      const data = await response.json();
+      console.log("Usuário atualizado:", data);
+      alert("Usuário atualizado com sucesso!");
+      window.location.reload();
       
-      // envia os dados para att o usuário 
+      // limpa o formulário após o envio
       setFormUpdate({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
       setOpcaoSelecionada('');
   
@@ -164,6 +155,7 @@ function Crud() {
     }
   };
 
+  //deletar o usuário
   const submitFormularioDelete = async (event) => {
     event.preventDefault();
 
@@ -179,15 +171,19 @@ function Crud() {
         method: "DELETE",
       });
 
-      if (response.ok) {
-        alert("Usuário deletado com sucesso!");
-        setData(data.filter((pessoa) => pessoa.idusuarios !== usuarioId));
-        setFormUpdate({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
-        setOpcaoSelecionada('');
-        window.location.reload();
-      } else {
-        alert("Erro ao deletar o usuário");
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
       }
+    
+      setData(data.filter((pessoa) => pessoa.idusuarios !== usuarioId));
+
+      //limpa o formulário após o envio
+      setFormUpdate({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
+      setOpcaoSelecionada('');
+
+      alert("Usuário deletado com sucesso!");
+      window.location.reload();
+
     } catch (error) {
       console.error("Erro ao deletar o usuário:", error);
       alert("Erro ao deletar usuário");
@@ -214,7 +210,7 @@ function Crud() {
           <button type="submit">Enviar</button>
         </form>
       </div>
-
+      
       <div className="container-update">
         <h1>Atualizar ou Deletar pessoa</h1>
         <form>
