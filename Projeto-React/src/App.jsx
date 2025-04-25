@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import DataList from "./DataList";
-import Add from "./Add"; 
+import Crud from "./Crud"; 
 import User from "./User";
 import "./App.css";
 
@@ -13,7 +13,7 @@ function App() {
       <div style={{ flex: 1, padding: "20px" }}>
         <Routes>
           <Route path="/" element={<DataList />} />
-          <Route path="/crud" element={<Add />} />
+          <Route path="/crud" element={<Crud />} />
           <Route path="/usuarios/:id" element={<User />} />
         </Routes>
       </div>

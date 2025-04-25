@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Crud.css"; 
 
-function Add() {
+function Crud() {
+  //formulário para add novos usuários
   const [formAdd, setFormAdd] = useState({
     nome: "",
     email: "",
@@ -11,6 +12,7 @@ function Add() {
     cpf: ""
   });
 
+  //formulário para att usuários
   const [formUpdate, setFormUpdate] = useState({
     nome: "",
     email: "",
@@ -23,12 +25,14 @@ function Add() {
   const [data, setData] = useState([]);  
   const [opcaoSelecionada, setOpcaoSelecionada] = useState('');
 
+  //pego os usuários do banco de dados
   useEffect(() => {
     fetch("http://localhost:8800/usuarios")
       .then((response) => response.json())
       .then((data) => setData(data));
   }, []);
 
+  //pego os usuários do banco de dados quando o usuário é adicionado ou atualizado
   const handleAddChange = (event) => {
     setFormAdd({
       ...formAdd,
@@ -43,10 +47,12 @@ function Add() {
     });
   };
 
+  //pego o usuário que foi selecionado para atualizar ou deletar
   const handleChange = (event) => {
     const id = event.target.value;
     setOpcaoSelecionada(id);
 
+    //pego o usuário pelo id
     const pessoa = data.find((p) => String(p.idusuarios) === String(id));
 
     if (pessoa) {
@@ -55,7 +61,7 @@ function Add() {
         email: pessoa.email,
         idade: pessoa.idade,
         genero: pessoa.genero,
-        dataNascimento: pessoa.dataNascimento ? pessoa.dataNascimento.split("T")[0] : "",
+        dataNascimento: pessoa.dataNascimento ? pessoa.dataNascimento.split("T")[0] : "", //converto para o formato certo
         cpf: pessoa.cpf,
       });
     }
@@ -63,6 +69,13 @@ function Add() {
 
   const submitFormularioAdd = async (event) => {
     event.preventDefault();
+
+    const { nome, email, idade, genero, dataNascimento, cpf } = formAdd;
+
+    if (!nome || !email || !idade || !genero || !dataNascimento || !cpf) {
+      alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
 
     try {
       const response = await fetch(`http://localhost:8800/usuarios`, {
@@ -79,11 +92,14 @@ function Add() {
         const data = JSON.parse(text);
         console.log("Usuário adicionado:", data);
         alert("Usuário adicionado com sucesso!");
+        window.location.reload(); 
       } catch (e) {
         console.warn("Resposta não era JSON válido:", text);
-        alert("Usuário adicionado com sucesso! (mas resposta não era JSON)");
+        alert("Usuário adicionado com sucesso!");
+        window.location.reload(); 
       }
-
+      
+      //envia os dados para add o usuário
       setFormAdd({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
 
     } catch (error) {
@@ -95,8 +111,20 @@ function Add() {
   const submitFormularioUpdate = async (event) => {
     event.preventDefault();
   
+
+    const { nome, email, idade, genero, dataNascimento, cpf } = formUpdate;
+
+    if (!opcaoSelecionada) {
+      alert("Selecione uma pessoa para atualizar!");
+      return;
+    }
+
+    if (!nome || !email || !idade || !genero || !dataNascimento || !cpf) {
+      alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
+
     console.log("Dados enviados para atualização:", formUpdate);
-  
     if (!formUpdate.nome) {
       alert("Nome é obrigatório!");
       return;
@@ -119,11 +147,14 @@ function Add() {
         const data = JSON.parse(text);
         console.log("Usuário atualizado:", data);
         alert("Usuário atualizado com sucesso!");
+        window.location.reload(); 
       } catch (e) {
         console.warn("Resposta não era JSON válido:", text);
         alert("Usuário atualizado com sucesso! (mas resposta não era JSON)");
+        window.location.reload(); 
       }
-  
+      
+      // envia os dados para att o usuário 
       setFormUpdate({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
       setOpcaoSelecionada('');
   
@@ -153,6 +184,7 @@ function Add() {
         setData(data.filter((pessoa) => pessoa.idusuarios !== usuarioId));
         setFormUpdate({ nome: "", idade: "", dataNascimento:"", cpf: "", email:"", genero:"" });
         setOpcaoSelecionada('');
+        window.location.reload();
       } else {
         alert("Erro ao deletar o usuário");
       }
@@ -174,10 +206,10 @@ function Add() {
           <input type="email" name="email" value={formAdd.email} onChange={handleAddChange} placeholder="Email" />
           <select name="genero" value={formAdd.genero} onChange={handleAddChange}>
             <option value="">Selecione o gênero</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="nao_binario">Não Binário</option>
-            <option value="outro">Outro</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Não binário">Não Binário</option>
+            <option value="Outro">Outro</option>
           </select>
           <button type="submit">Enviar</button>
         </form>
@@ -201,10 +233,10 @@ function Add() {
           <input type="email" name="email" value={formUpdate.email} onChange={handleUpdateChange} placeholder="Email" />
           <select name="genero" value={formUpdate.genero} onChange={handleUpdateChange}>
             <option value="">Selecione o gênero</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
-            <option value="nao_binario">Não Binário</option>
-            <option value="outro">Outro</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Não binário">Não Binário</option>
+            <option value="Outro">Outro</option>
           </select>
           <button type="submit" onClick={submitFormularioUpdate}>Atualizar</button>
           <button type="submit" id='btn-delete' onClick={submitFormularioDelete}>Deletar</button>
@@ -214,4 +246,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Crud;

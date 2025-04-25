@@ -13,6 +13,7 @@ git clone https://github.com/Lucas-doc26/Projeto-React
 
 ### Instalação 
 ```sh
+cd Projeto-React
 npm install 
 npm install mysql cors express
 ```
