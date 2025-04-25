@@ -1,28 +1,19 @@
-
 .content {
   flex: 1; 
   padding: 1rem;
 }
 
-.container-datalist,
-.container-add {
+.container-datalist {
   width: 100%;
   max-width: 1500px;
   margin: 20px 20px 20px auto;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-}
-
-.container-datalist {
-  padding: 20px;
   font-family: Arial, sans-serif;
+  color: white;
 }
 
-h1 {
-  text-align: center;
-  color: #04AA6D;
-}
 
 .user-list {
   display: flex;
@@ -33,7 +24,7 @@ h1 {
 .user {
   width: 250px; /* Tamanho de cada item (3 por linha com espaçamento) */
   box-sizing: border-box;
-  background-color: #f0f0f0;
+  background-color: #333;
   padding: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -58,12 +49,17 @@ h1 {
   background-color: #d32f2f;
 }
 
-
 h1 {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
   margin-bottom: 15px;
   color: #04AA6D;
+  text-align: center;
+  padding-bottom: 10px;
 }
+
 
 input, select {
   width: 90%;
@@ -72,18 +68,20 @@ input, select {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
+  background-color: #333;
+  color: white;
 }
 
 input:focus, select:focus {
-  border-color: #007bff;
+  border-color: #04AA6D;
   outline: none;
 }
 
 /* Estilo para os botões */
-button {
+.container-datalist > button {
   width: 70%;
   padding: 10px;
-  background: #007bff;
+  background: #04AA6D;
   color: white;
   border: none;
   border-radius: 5px;
@@ -92,15 +90,14 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
-  background: #0056b3;
+.container-datalist > button:hover {
+  background: #03945e;
 }
 
 /* Ajustes para a lista */
 ul {
   list-style: none;
   padding: 0;
-
 }
 
 ul li {
@@ -113,7 +110,7 @@ ul li {
 }
 
 .li-list {
-  background-color: white;
+  background-color: #4e4c4c;
   padding: 20px;
   margin: 10px;
   padding-left: 20px;
@@ -122,19 +119,15 @@ ul li {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 1rem;
+  color: white;
 }
 
-h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 20px;
-  font-size: 2rem;
-}
+
 
 .container-crud {
   background: #ffffff;
   border-radius: 3px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 22px;
+  background-color: #333;
 }

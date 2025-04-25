@@ -1,0 +1,70 @@
+.container-add, .container-update {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #4e4c4c;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .container-add h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #04AA6D;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  input,
+  select {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  input::placeholder {
+    color: #bbb;
+  }
+  
+  select {
+    cursor: pointer;
+    color: #bbb;
+  }
+  
+  #btn-delete {
+    background-color: #f44336;
+    color: white;
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  #btn-delete:hover {
+    background-color: #d32f2f;
+  }
+  
+  button {
+    background-color: #04AA6D;
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    color: white;
+  }
+  
+  button:hover {
+    background-color: #03945e;
+  }
+  

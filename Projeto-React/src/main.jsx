@@ -1,14 +1,16 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import Crud from "./crud";
-import Sidebar from "./sidebar";
+import Sidebar from "./Sidebar";
 
 const root = createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <Sidebar/>
-    <App/>
+    <BrowserRouter>
+      <Sidebar/>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

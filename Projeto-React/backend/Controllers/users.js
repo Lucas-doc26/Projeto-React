@@ -22,31 +22,32 @@ export const getUsers = (req, res) => {
 
 
 export const createUsers = (req, res) => {
-  const {nome, idade, cpf} = req.body;
-  if (!nome || !idade || !cpf) {
-    return res.status(400).json({ message: "Nome, idade e CPF são obrigatórios." });
+  const {nome, idade, dataNascimento, cpf, email, genero} = req.body;
+  if (!nome || !idade || !cpf || !dataNascimento || !email || !genero) {
+    return res.status(400).json({ message: "Todos os itens são obrigatórios." });
   }
 
-  const q = "INSERT INTO Pessoa (nome, idade, cpf) VALUES (?, ?, ?)"
+  const q = "INSERT INTO Pessoa (nome, idade, dataNascimento, cpf, email, genero) VALUES (?, ?, ?, ?, ?, ?)"
 
-  db.query(q, [nome, idade, cpf], (err, data) => {
+  db.query(q, [nome, idade, dataNascimento, cpf, email, genero], (err, data) => {
     if (err){
       console.log("Erro ao criar o usuário");
       return res.status(500).json(err);//json do erro
     } 
     res.status(200).json({message: "Usuário criado com sucesso!"})
+    console.log("Usuário criado com sucesso!")
     //tem que ser em json para o front validar 
   })
 }
 
 export const updateUser = (req, res) => {
   const {id} = req.params; 
-  const {nome, idade, cpf} = req.body;
+  const {nome, idade, dataNascimento, cpf, email, genero} = req.body;
   
 
-  const q = 'UPDATE Pessoa SET nome = ?, idade = ?, cpf = ? WHERE idusuarios = ?';
+  const q = 'UPDATE Pessoa SET nome = ?, idade = ?, dataNascimento = ?, cpf = ? , email = ?, genero = ? WHERE idusuarios = ?';
 
-  db.query(q, [nome, idade, cpf, id], (err, data) => {
+  db.query(q, [nome, idade, dataNascimento, cpf, email, genero, id], (err, data) => {
     if (err){
       console.log("Erro ao atualizar o usuário");
       return res.json(err);

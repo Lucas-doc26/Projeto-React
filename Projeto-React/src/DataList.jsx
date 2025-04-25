@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa o useNavigate
 
-const DataList = (props) => {
+const DataList = () => {
   const [data, setData] = useState([]);
+  const navigate = useNavigate(); // Cria a função de navegação
 
   useEffect(() => {
     fetch("http://localhost:8800/usuarios")
@@ -10,6 +12,11 @@ const DataList = (props) => {
         setData(data);
       });
   }, []);
+
+  // Função para navegação
+  function abrirNovaPagina(id) {
+    navigate(`/usuarios/${id}`); // Navega para a página de detalhes do usuário
+  }
 
   return (
     <div className="container-datalist">
@@ -29,10 +36,10 @@ const DataList = (props) => {
 
             <div className="div-btn">
               <button
-                className="btn-delete"
-                onClick={() => deleteUser(pessoa.idusuarios)}
+                className="btn-ver-mais"
+                onClick={() => abrirNovaPagina(pessoa.idusuarios)} // Passa o id do usuário
               >
-                Excluir
+                Ver mais
               </button>
             </div>
           </div>
@@ -42,4 +49,4 @@ const DataList = (props) => {
   );
 };
 
-export default DataList
+export default DataList;
